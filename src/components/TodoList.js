@@ -14,6 +14,22 @@ const TodoList = () => {
         }
     }, []);
 
+    const deleteTask = (index) => {
+        let tempList = taskList
+        tempList.splice(index, 1)
+        localStorage.setItem('taskList', JSON.stringify(tempList))
+        setTaskList(tempList)
+        window.location.reload()
+    }
+
+    const updateListArray = (obj, index) => {
+        let tempList = taskList 
+        tempList[index] = obj
+        localStorage.setItem('taskList', JSON.stringify(tempList))
+        setTaskList(tempList)
+        window.location.reload();
+    }
+
     const toggle = () => {
         setModal(!modal);
     }
@@ -29,11 +45,11 @@ const TodoList = () => {
     return (
         <div>
             <div className='header text-center'>
-                <h3>Todo List</h3>
-                <button className="btn btn-primary" onClick={() => setModal(true)}>Create Task</button>
+                <h3>Mau melakukan apa hari ini ?</h3>
+                <button className="btn btn-outline-info btn-create" onClick={() => setModal(true)}>Create Task</button>
             </div>
-            <div className='task-container'>
-                {taskList && taskList.map((obj, index) => <Card taskObjek = {obj} index = {index}/>)}
+            <div className='task-container container container-fluid'>
+                {taskList && taskList.map((obj, index) => <Card taskObjek = {obj} index = {index} deleteTask = {deleteTask} updateListArray = {updateListArray}/>)}
             </div>
             <CreateTask toggle = {toggle} modal = {modal} save = {saveTask} />
         </div>
